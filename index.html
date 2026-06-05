@@ -2,656 +2,466 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🔮 BIO TAROT — Admin Dashboard</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>🔮 Đặt Lịch Xem Bài - BIO TAROT</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Be+Vietnam+Pro:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
-  --ink: #0D0A14;
-  --ink2: #1C1628;
-  --ink3: #2E2540;
-  --surface: #1A1425;
-  --card: #211A31;
-  --card2: #271F38;
-  --gold: #C9A84C;
-  --gold2: #E8C56A;
-  --gold3: #8B6914;
-  --gold-glow: rgba(201,168,76,0.15);
-  --gold-border: rgba(201,168,76,0.22);
-  --gold-border2: rgba(201,168,76,0.45);
-  --cream: #F0EAD6;
-  --muted: #7A6E8A;
-  --muted2: #A599BA;
-  --success: #4DB880;
-  --success-bg: rgba(77,184,128,0.1);
-  --success-border: rgba(77,184,128,0.3);
-  --warn: #E8A83E;
-  --warn-bg: rgba(232,168,62,0.1);
-  --warn-border: rgba(232,168,62,0.3);
-  --danger: #E05C5C;
-  --danger-bg: rgba(224,92,92,0.1);
-  --danger-border: rgba(224,92,92,0.3);
-  --violet: #9B6FD8;
-  --violet-bg: rgba(155,111,216,0.1);
-  --r: 14px;
-  --r-sm: 9px;
-  --shadow: 0 4px 24px rgba(0,0,0,0.35);
-  --shadow-lg: 0 8px 48px rgba(0,0,0,0.5);
+  --gold: #B8860B; --gold-light: #D4A017; --gold-dark: #8B6914;
+  --bg: #F8F5EE; --bg2: #FFFFFF; --bg3: #F2EDE3; --surface: #EDE8DC;
+  --text: #2A1F0A; --text2: #5A4A2A; --text3: #9A8A6A;
+  --accent: #7B4FC8; --success: #2E7D52; --warning: #B07020; --danger: #C0392B;
+  --border: rgba(139,105,20,0.18); --border2: rgba(139,105,20,0.35);
+  --radius: 16px; --radius-sm: 10px; --card-shadow: 0 2px 12px rgba(139,105,20,0.08);
+  --input-bg: #F5F0E8; --chip-bg: #EDE8DC; --modal-bg: #FFFFFF;
+  --nav-bg: #FDFAF4; --header-bg: #FFFDF7; --option-bg: #F5F0E8; --stat-bg: #FFFFFF;
+}
+[data-theme="dark"] {
+  --gold: #C9A84C; --gold-light: #E8C56A; --gold-dark: #8B6914;
+  --bg: #1A1228; --bg2: #231A35; --bg3: #2E2045; --surface: #302048;
+  --text: #F0EAD6; --text2: #C4B896; --text3: #8A7A60;
+  --accent: #9B6FD8; --success: #4CAF84; --warning: #E8A83E; --danger: #E05C5C;
+  --border: rgba(201,168,76,0.2); --border2: rgba(201,168,76,0.4);
+  --input-bg: #2E2045; --chip-bg: #2E2045; --modal-bg: #231A35;
+  --nav-bg: #1E1530; --header-bg: #231A35; --option-bg: #2E2045; --stat-bg: #231A35;
 }
 
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { transition: background 0.3s, color 0.3s; }
+body { font-family: 'Be Vietnam Pro', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; transition: background 0.3s, color 0.3s; }
+.app { max-width: 480px; margin: 0 auto; padding: 0 0 80px; }
 
-body {
-  font-family: 'DM Sans', sans-serif;
-  background: var(--ink);
-  color: var(--cream);
-  min-height: 100vh;
-  overflow-x: hidden;
-}
+.app-header { background: var(--header-bg); border-bottom: 1px solid var(--border); padding: 16px 16px 12px; position: sticky; top: 0; z-index: 100; }
+.header-top { display: flex; justify-content: space-between; align-items: center; }
+.app-logo { display: flex; align-items: center; gap: 10px; }
+.logo-icon { font-size: 26px; }
+.logo-text { font-family: 'Playfair Display', serif; font-size: 17px; color: var(--gold); font-weight: 600; }
+.logo-sub { font-size: 10px; color: var(--text3); }
+.header-actions { display: flex; align-items: center; gap: 8px; }
+.theme-btn { background: var(--chip-bg); border: 1px solid var(--border); color: var(--text2); width: 34px; height: 34px; border-radius: 50%; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; flex-shrink: 0; }
+.theme-btn:hover { border-color: var(--border2); }
+.admin-btn { background: transparent; border: 1px solid var(--border2); color: var(--gold); padding: 7px 12px; border-radius: 20px; font-size: 12px; cursor: pointer; font-family: 'Be Vietnam Pro', sans-serif; transition: all 0.2s; }
+.admin-btn:hover { background: rgba(139,105,20,0.08); }
 
-/* NOISE TEXTURE OVERLAY */
-body::before {
-  content: '';
-  position: fixed; inset: 0; z-index: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-  pointer-events: none; opacity: 0.5;
-}
+.bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; background: var(--nav-bg); border-top: 1px solid var(--border); display: flex; z-index: 100; padding: 8px 0 14px; }
+.nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 4px 8px; cursor: pointer; transition: all 0.2s; border: none; background: none; color: var(--text3); font-family: 'Be Vietnam Pro', sans-serif; }
+.nav-item.active { color: var(--gold); }
+.nav-icon { font-size: 20px; }
+.nav-label { font-size: 10px; font-weight: 500; }
 
-/* GLOW BG */
-.bg-glow {
-  position: fixed; top: -200px; left: -200px;
-  width: 600px; height: 600px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(201,168,76,0.06) 0%, transparent 70%);
-  pointer-events: none; z-index: 0;
-}
-.bg-glow2 {
-  position: fixed; bottom: -200px; right: -100px;
-  width: 500px; height: 500px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(155,111,216,0.07) 0%, transparent 70%);
-  pointer-events: none; z-index: 0;
-}
+.page { display: none; padding: 16px; }
+.page.active { display: block; }
 
-/* LAYOUT */
-.wrapper { position: relative; z-index: 1; }
+.section-title { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--gold); margin-bottom: 4px; }
+.section-sub { font-size: 13px; color: var(--text3); margin-bottom: 16px; }
 
-/* ===== LOGIN SCREEN ===== */
-#login-screen {
-  min-height: 100vh;
-  display: flex; align-items: center; justify-content: center;
-  padding: 24px;
-}
+.form-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-bottom: 14px; box-shadow: var(--card-shadow); }
+.form-card-title { font-size: 13px; font-weight: 600; color: var(--gold); margin-bottom: 14px; }
+.form-group { margin-bottom: 12px; }
+.form-group:last-child { margin-bottom: 0; }
+.form-label { font-size: 12px; color: var(--text2); font-weight: 500; margin-bottom: 5px; display: block; }
+.form-input, .form-select, .form-textarea { width: 100%; padding: 11px 13px; background: var(--input-bg); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text); font-size: 14px; font-family: 'Be Vietnam Pro', sans-serif; transition: border-color 0.2s, background 0.2s; outline: none; }
+.form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--gold); }
+.form-select option { background: var(--input-bg); color: var(--text); }
+.form-textarea { min-height: 72px; resize: vertical; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 
-.login-box {
-  width: 100%; max-width: 400px;
-  background: var(--card);
-  border: 1px solid var(--gold-border);
-  border-radius: 22px;
-  padding: 44px 36px;
-  box-shadow: var(--shadow-lg);
-  animation: fadeUp 0.5s ease both;
-}
+.question-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; }
+.question-item { display: flex; align-items: flex-start; gap: 8px; background: var(--input-bg); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 10px 12px; }
+.question-num { width: 22px; height: 22px; background: var(--gold); color: var(--bg); border-radius: 50%; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+.question-text { flex: 1; font-size: 13px; color: var(--text); line-height: 1.5; word-break: break-word; }
+.question-del { background: none; border: none; color: var(--danger); cursor: pointer; font-size: 16px; padding: 0 2px; flex-shrink: 0; line-height: 1; }
+.add-question-row { display: flex; gap: 8px; align-items: flex-end; }
+.add-question-row textarea { flex: 1; padding: 10px 12px; background: var(--input-bg); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text); font-size: 13px; font-family: 'Be Vietnam Pro', sans-serif; min-height: 56px; resize: none; outline: none; transition: border-color 0.2s; }
+.add-question-row textarea:focus { border-color: var(--gold); }
+.add-q-btn { padding: 10px 14px; background: var(--gold); border: none; border-radius: var(--radius-sm); color: var(--bg); font-size: 13px; font-weight: 600; cursor: pointer; white-space: nowrap; font-family: 'Be Vietnam Pro', sans-serif; transition: all 0.2s; align-self: flex-end; }
+.add-q-btn:hover { background: var(--gold-light); }
 
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+.options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.option-card { background: var(--option-bg); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px 10px; cursor: pointer; transition: all 0.2s; text-align: center; position: relative; }
+.option-card.selected { border-color: var(--gold); background: rgba(139,105,20,0.07); }
+.option-card:hover { border-color: var(--border2); }
+.option-icon { font-size: 22px; margin-bottom: 5px; }
+.option-name { font-size: 13px; font-weight: 600; color: var(--text); }
+.option-desc { font-size: 11px; color: var(--text3); margin-top: 2px; }
+.option-check { position: absolute; top: 7px; right: 7px; width: 17px; height: 17px; border-radius: 50%; background: var(--gold); display: none; align-items: center; justify-content: center; font-size: 9px; color: var(--bg); }
+.option-card.selected .option-check { display: flex; }
 
-.login-gem {
-  font-size: 52px; text-align: center; margin-bottom: 8px;
-  filter: drop-shadow(0 0 16px rgba(201,168,76,0.4));
-}
-.login-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 28px; font-weight: 600; color: var(--gold);
-  text-align: center; letter-spacing: 0.5px; margin-bottom: 4px;
-}
-.login-sub {
-  font-size: 12px; color: var(--muted); text-align: center;
-  letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 32px;
-}
+.category-tabs { display: flex; gap: 7px; margin-bottom: 14px; }
+.cat-tab { flex: 1; padding: 9px 6px; background: var(--option-bg); border: 1px solid var(--border); border-radius: var(--radius-sm); text-align: center; cursor: pointer; font-size: 12px; color: var(--text2); transition: all 0.2s; font-family: 'Be Vietnam Pro', sans-serif; }
+.cat-tab.active { background: rgba(139,105,20,0.08); border-color: var(--gold); color: var(--gold); font-weight: 600; }
 
-.field { margin-bottom: 16px; }
-.field label { display: block; font-size: 11px; color: var(--muted2); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 7px; }
-.field input {
-  width: 100%; padding: 12px 16px;
-  background: var(--ink2); border: 1px solid var(--gold-border);
-  border-radius: var(--r-sm); color: var(--cream);
-  font-size: 14px; font-family: 'DM Sans', sans-serif;
-  outline: none; transition: border-color 0.2s, box-shadow 0.2s;
-}
-.field input:focus {
-  border-color: var(--gold);
-  box-shadow: 0 0 0 3px rgba(201,168,76,0.1);
-}
+.person-section { overflow: hidden; max-height: 0; transition: max-height 0.4s ease; }
+.person-section.open { max-height: 600px; }
 
-.login-btn {
-  width: 100%; padding: 14px;
-  background: linear-gradient(135deg, var(--gold3), var(--gold2));
-  border: none; border-radius: var(--r-sm);
-  color: var(--ink); font-size: 14px; font-weight: 600;
-  font-family: 'DM Sans', sans-serif;
-  cursor: pointer; letter-spacing: 0.3px;
-  transition: all 0.2s; margin-top: 8px;
-}
-.login-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 24px rgba(201,168,76,0.3); }
-.login-btn:active { transform: scale(0.98); }
-.login-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+.submit-btn { width: 100%; padding: 15px; background: linear-gradient(135deg, var(--gold-dark), var(--gold-light)); border: none; border-radius: var(--radius); color: #1A0F00; font-size: 15px; font-weight: 700; font-family: 'Be Vietnam Pro', sans-serif; cursor: pointer; letter-spacing: 0.3px; transition: all 0.2s; margin-top: 4px; }
+.submit-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(139,105,20,0.25); }
+.submit-btn:active { transform: scale(0.98); }
+.submit-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
-.login-error {
-  margin-top: 12px; padding: 10px 14px;
-  background: var(--danger-bg); border: 1px solid var(--danger-border);
-  border-radius: var(--r-sm); font-size: 13px; color: var(--danger);
-  text-align: center; display: none;
-}
-.login-error.show { display: block; }
-
-/* ===== DASHBOARD ===== */
-#dashboard { display: none; min-height: 100vh; }
-
-/* TOPBAR */
-.topbar {
-  background: var(--ink2);
-  border-bottom: 1px solid var(--gold-border);
-  padding: 0 28px;
-  display: flex; align-items: center; justify-content: space-between;
-  height: 64px; position: sticky; top: 0; z-index: 100;
-}
-.topbar-brand { display: flex; align-items: center; gap: 12px; }
-.topbar-gem { font-size: 24px; filter: drop-shadow(0 0 8px rgba(201,168,76,0.5)); }
-.topbar-title { font-family: 'Cormorant Garamond', serif; font-size: 20px; color: var(--gold); font-weight: 600; }
-.topbar-sub { font-size: 10px; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; }
-.topbar-right { display: flex; align-items: center; gap: 12px; }
-
-.conn-pill {
-  display: flex; align-items: center; gap: 6px;
-  padding: 5px 12px; border-radius: 20px;
-  font-size: 11px; font-weight: 500;
-  border: 1px solid; transition: all 0.3s;
-}
-.conn-pill.connecting { background: var(--warn-bg); color: var(--warn); border-color: var(--warn-border); }
-.conn-pill.connected { background: var(--success-bg); color: var(--success); border-color: var(--success-border); }
-.conn-pill.error { background: var(--danger-bg); color: var(--danger); border-color: var(--danger-border); }
-.conn-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
-.conn-dot.pulse { animation: dotPulse 1.5s infinite; }
-@keyframes dotPulse { 0%,100%{opacity:1;} 50%{opacity:0.2;} }
-
-.logout-btn {
-  padding: 7px 16px; background: transparent;
-  border: 1px solid var(--gold-border); border-radius: 20px;
-  color: var(--muted2); font-size: 12px; cursor: pointer;
-  font-family: 'DM Sans', sans-serif; transition: all 0.2s;
-}
-.logout-btn:hover { border-color: var(--gold-border2); color: var(--gold); }
-
-/* MAIN CONTENT */
-.main { padding: 28px; max-width: 1400px; margin: 0 auto; }
-
-/* STATS */
-.stats-row {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
-  margin-bottom: 28px;
-}
-@media(max-width:900px) { .stats-row { grid-template-columns: repeat(2, 1fr); } }
-@media(max-width:500px) { .stats-row { grid-template-columns: 1fr 1fr; gap: 10px; } }
-
-.stat-tile {
-  background: var(--card);
-  border: 1px solid var(--gold-border);
-  border-radius: var(--r);
-  padding: 20px 22px;
-  box-shadow: var(--shadow);
-  position: relative; overflow: hidden;
-  animation: fadeUp 0.5s ease both;
-}
-.stat-tile::after {
-  content: '';
-  position: absolute; top: 0; left: 0; right: 0; height: 2px;
-  border-radius: var(--r) var(--r) 0 0;
-}
-.stat-tile.total::after { background: linear-gradient(90deg, var(--gold), var(--gold2)); }
-.stat-tile.pending::after { background: linear-gradient(90deg, var(--warn), transparent); }
-.stat-tile.confirmed::after { background: linear-gradient(90deg, var(--success), transparent); }
-.stat-tile.rejected::after { background: linear-gradient(90deg, var(--danger), transparent); }
-
-.stat-tile:nth-child(1){ animation-delay: 0.05s; }
-.stat-tile:nth-child(2){ animation-delay: 0.1s; }
-.stat-tile:nth-child(3){ animation-delay: 0.15s; }
-.stat-tile:nth-child(4){ animation-delay: 0.2s; }
-
-.stat-icon { font-size: 20px; margin-bottom: 10px; }
-.stat-num {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 42px; font-weight: 700; line-height: 1;
-  margin-bottom: 4px;
-}
-.stat-tile.total .stat-num { color: var(--gold); }
-.stat-tile.pending .stat-num { color: var(--warn); }
-.stat-tile.confirmed .stat-num { color: var(--success); }
-.stat-tile.rejected .stat-num { color: var(--danger); }
-.stat-label { font-size: 11px; color: var(--muted); letter-spacing: 0.8px; text-transform: uppercase; }
-
-/* TOOLBAR */
-.toolbar {
-  display: flex; gap: 12px; align-items: center;
-  margin-bottom: 18px; flex-wrap: wrap;
-}
-.search-wrap {
-  flex: 1; min-width: 220px;
-  display: flex; align-items: center; gap: 10px;
-  background: var(--card); border: 1px solid var(--gold-border);
-  border-radius: 10px; padding: 10px 16px;
-}
-.search-wrap input {
-  flex: 1; background: none; border: none; color: var(--cream);
-  font-size: 13px; font-family: 'DM Sans', sans-serif; outline: none;
-}
-.search-wrap input::placeholder { color: var(--muted); }
-.search-icon { color: var(--muted); font-size: 14px; }
-
-.filter-pills { display: flex; gap: 7px; flex-wrap: wrap; }
-.fpill {
-  padding: 8px 16px; border-radius: 20px;
-  border: 1px solid var(--gold-border);
-  background: transparent; color: var(--muted2);
-  font-size: 12px; cursor: pointer; font-family: 'DM Sans', sans-serif;
-  transition: all 0.2s; white-space: nowrap;
-}
-.fpill.active { background: var(--gold-glow); border-color: var(--gold-border2); color: var(--gold); font-weight: 600; }
-.fpill:hover:not(.active) { border-color: var(--gold-border2); color: var(--cream); }
-
-.export-btn {
-  padding: 9px 18px; border-radius: 10px;
-  background: var(--gold-glow); border: 1px solid var(--gold-border2);
-  color: var(--gold); font-size: 12px; font-weight: 600;
-  cursor: pointer; font-family: 'DM Sans', sans-serif;
-  transition: all 0.2s; white-space: nowrap;
-}
-.export-btn:hover { background: rgba(201,168,76,0.22); }
-
-.refresh-btn {
-  padding: 9px 14px; border-radius: 10px;
-  background: var(--card); border: 1px solid var(--gold-border);
-  color: var(--muted2); font-size: 13px; cursor: pointer;
-  transition: all 0.2s;
-}
-.refresh-btn:hover { color: var(--gold); border-color: var(--gold-border2); }
-
-/* TABLE WRAPPER */
-.table-card {
-  background: var(--card);
-  border: 1px solid var(--gold-border);
-  border-radius: var(--r); overflow: hidden;
-  box-shadow: var(--shadow);
-  animation: fadeUp 0.5s ease 0.25s both;
-}
-.table-header {
-  padding: 16px 22px;
-  border-bottom: 1px solid var(--gold-border);
-  display: flex; align-items: center; justify-content: space-between;
-}
-.table-title { font-family: 'Cormorant Garamond', serif; font-size: 18px; color: var(--gold); }
-.table-count { font-size: 12px; color: var(--muted); }
-
-.tbl-wrap { overflow-x: auto; }
-
-table {
-  width: 100%; border-collapse: collapse;
-  font-size: 13px;
-}
-thead th {
-  padding: 12px 16px;
-  background: var(--ink2);
-  color: var(--muted); font-size: 10px; font-weight: 600;
-  letter-spacing: 1px; text-transform: uppercase;
-  text-align: left; white-space: nowrap;
-  border-bottom: 1px solid var(--gold-border);
-}
-thead th:first-child { padding-left: 22px; }
-thead th:last-child { padding-right: 22px; }
-
-tbody tr {
-  border-bottom: 1px solid rgba(201,168,76,0.07);
-  transition: background 0.15s; cursor: pointer;
-}
-tbody tr:last-child { border-bottom: none; }
-tbody tr:hover { background: rgba(201,168,76,0.04); }
-
-tbody td {
-  padding: 14px 16px; vertical-align: top;
-  color: var(--cream); line-height: 1.5;
-}
-tbody td:first-child { padding-left: 22px; }
-tbody td:last-child { padding-right: 22px; }
-
-.td-name { font-weight: 600; color: var(--cream); margin-bottom: 2px; }
-.td-sub { font-size: 11px; color: var(--muted); }
-.td-email { font-size: 12px; color: var(--muted2); }
-
-/* STATUS BADGE */
-.badge {
-  display: inline-flex; align-items: center; gap: 5px;
-  padding: 4px 10px; border-radius: 20px;
-  font-size: 11px; font-weight: 600; white-space: nowrap; border: 1px solid;
-}
-.badge.pending { background: var(--warn-bg); color: var(--warn); border-color: var(--warn-border); }
-.badge.confirmed { background: var(--success-bg); color: var(--success); border-color: var(--success-border); }
-.badge.rejected { background: var(--danger-bg); color: var(--danger); border-color: var(--danger-border); }
-
-.tag {
-  display: inline-block; padding: 2px 8px;
-  background: rgba(201,168,76,0.08); border: 1px solid var(--gold-border);
-  border-radius: 6px; font-size: 11px; color: var(--muted2);
-  margin: 2px 2px 0 0;
-}
-.tag.seen { background: var(--violet-bg); color: var(--violet); border-color: rgba(155,111,216,0.3); }
-.tag.paid { background: var(--success-bg); color: var(--success); border-color: var(--success-border); }
-
-.q-count {
-  display: inline-flex; align-items: center; gap: 4px;
-  font-size: 11px; color: var(--muted2);
-}
-
-/* ACTIONS in table */
-.row-actions { display: flex; gap: 6px; flex-wrap: wrap; }
-.act {
-  padding: 5px 10px; border-radius: 6px; font-size: 11px;
-  font-weight: 600; border: 1px solid; cursor: pointer;
-  font-family: 'DM Sans', sans-serif; transition: all 0.15s; white-space: nowrap;
-}
-.act.confirm { background: var(--success-bg); color: var(--success); border-color: var(--success-border); }
-.act.confirm:hover { background: rgba(77,184,128,0.2); }
-.act.reject { background: var(--danger-bg); color: var(--danger); border-color: var(--danger-border); }
-.act.reject:hover { background: rgba(224,92,92,0.2); }
-.act.seen { background: var(--violet-bg); color: var(--violet); border-color: rgba(155,111,216,0.3); }
-.act.seen:hover { background: rgba(155,111,216,0.2); }
-.act.paid { background: var(--success-bg); color: var(--success); border-color: var(--success-border); }
-.act.paid:hover { background: rgba(77,184,128,0.2); }
-.act.detail { background: var(--gold-glow); color: var(--gold); border-color: var(--gold-border2); }
-.act.detail:hover { background: rgba(201,168,76,0.22); }
-.act.pdf { background: var(--ink2); color: var(--muted2); border-color: var(--gold-border); }
-.act.pdf:hover { color: var(--gold); border-color: var(--gold-border2); }
-
-/* EMPTY / LOADING */
-.table-empty {
-  padding: 60px 24px; text-align: center; color: var(--muted);
-}
-.table-empty .ei { font-size: 40px; margin-bottom: 12px; }
-.table-empty p { font-size: 14px; }
-
-/* MODAL */
-.modal-bg {
-  position: fixed; inset: 0; background: rgba(0,0,0,0.7);
-  z-index: 500; display: none; align-items: center; justify-content: center; padding: 20px;
-  backdrop-filter: blur(4px);
-}
-.modal-bg.open { display: flex; }
-.modal {
-  background: var(--card2); border: 1px solid var(--gold-border2);
-  border-radius: 20px; width: 100%; max-width: 560px;
-  max-height: 90vh; overflow-y: auto;
-  padding: 32px 28px; box-shadow: var(--shadow-lg);
-  animation: popIn 0.25s ease;
-}
-@keyframes popIn { from{opacity:0;transform:scale(0.94);} to{opacity:1;transform:scale(1);} }
-
-.modal-head {
-  display: flex; justify-content: space-between; align-items: flex-start;
-  margin-bottom: 24px;
-}
-.modal-name { font-family: 'Cormorant Garamond', serif; font-size: 24px; color: var(--gold); }
-.modal-date { font-size: 11px; color: var(--muted); margin-top: 3px; }
-.modal-close {
-  background: none; border: none; color: var(--muted); font-size: 22px;
-  cursor: pointer; line-height: 1; padding: 2px; transition: color 0.2s;
-}
-.modal-close:hover { color: var(--cream); }
-
-.modal-section {
-  background: var(--ink2); border: 1px solid var(--gold-border);
-  border-radius: var(--r-sm); padding: 16px; margin-bottom: 14px;
-}
-.modal-section-title {
-  font-size: 10px; color: var(--gold); letter-spacing: 1.5px;
-  text-transform: uppercase; font-weight: 600; margin-bottom: 12px;
-}
-.modal-row {
-  display: flex; justify-content: space-between; align-items: flex-start;
-  padding: 7px 0; border-bottom: 1px solid rgba(201,168,76,0.07);
-  font-size: 13px; gap: 12px;
-}
-.modal-row:last-child { border-bottom: none; padding-bottom: 0; }
-.modal-key { color: var(--muted); min-width: 130px; flex-shrink: 0; }
-.modal-val { color: var(--cream); font-weight: 500; text-align: right; word-break: break-word; }
-
-.modal-q {
-  display: flex; gap: 10px; padding: 8px 0;
-  border-bottom: 1px solid rgba(201,168,76,0.07); font-size: 13px;
-}
-.modal-q:last-child { border-bottom: none; }
-.modal-q-num {
-  width: 20px; height: 20px; background: var(--gold); color: var(--ink);
-  border-radius: 50%; font-size: 10px; font-weight: 700;
-  display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px;
-}
-.modal-q-text { color: var(--cream); line-height: 1.5; }
-
-.modal-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 20px; }
-.m-act {
-  padding: 12px; border-radius: var(--r-sm); font-size: 13px; font-weight: 600;
-  border: 1px solid; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s;
-}
-.m-act.confirm { background: var(--success-bg); color: var(--success); border-color: var(--success-border); }
-.m-act.reject { background: var(--danger-bg); color: var(--danger); border-color: var(--danger-border); }
-.m-act.seen { background: var(--violet-bg); color: var(--violet); border-color: rgba(155,111,216,0.3); }
-.m-act.paid { background: var(--success-bg); color: var(--success); border-color: var(--success-border); }
-.m-act.pdf { background: var(--gold-glow); color: var(--gold); border-color: var(--gold-border2); grid-column: span 2; }
-.m-act:hover { opacity: 0.85; transform: translateY(-1px); }
-
-/* ERROR BOX */
-.err-banner {
-  background: var(--danger-bg); border: 1px solid var(--danger-border);
-  border-radius: var(--r-sm); padding: 14px 18px;
-  margin-bottom: 20px; font-size: 13px; color: var(--danger);
-  white-space: pre-wrap; line-height: 1.6; display: none;
-}
-.err-banner.show { display: block; }
-.err-retry {
-  display: inline-block; margin-top: 10px; padding: 6px 16px;
-  background: var(--danger-bg); border: 1px solid var(--danger-border);
-  border-radius: 20px; color: var(--danger); font-size: 12px;
-  cursor: pointer; font-family: 'DM Sans', sans-serif; transition: opacity 0.2s;
-}
-.err-retry:hover { opacity: 0.75; }
-
-/* TOAST */
-.toast {
-  position: fixed; bottom: 28px; left: 50%;
-  transform: translateX(-50%) translateY(20px);
-  background: var(--card2); border: 1px solid var(--gold-border2);
-  border-radius: 12px; padding: 12px 22px;
-  font-size: 13px; font-weight: 500;
-  opacity: 0; pointer-events: none;
-  transition: all 0.3s; z-index: 999;
-  white-space: nowrap; box-shadow: var(--shadow-lg);
-}
+.toast { position: fixed; top: 76px; left: 50%; transform: translateX(-50%) translateY(-16px); background: var(--bg2); border: 1px solid var(--border2); border-radius: 12px; padding: 11px 18px; font-size: 13px; opacity: 0; transition: all 0.3s; z-index: 999; white-space: nowrap; max-width: 90vw; text-align: center; box-shadow: var(--card-shadow); }
 .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-.toast.success { border-color: var(--success-border); color: var(--success); }
-.toast.error { border-color: var(--danger-border); color: var(--danger); }
-.toast.info { border-color: var(--gold-border2); color: var(--gold); }
+.toast.success { border-color: var(--success); color: var(--success); }
+.toast.error { border-color: var(--danger); color: var(--danger); }
+.toast.info { border-color: var(--gold); color: var(--gold); }
 
-/* SPINNER */
-.spinner { width: 18px; height: 18px; border: 2px solid var(--gold-border); border-top-color: var(--gold); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto; }
+.login-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px 22px; max-width: 360px; margin: 32px auto; text-align: center; box-shadow: var(--card-shadow); }
+.login-icon { font-size: 44px; margin-bottom: 14px; }
+.login-title { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--gold); margin-bottom: 6px; }
+.login-sub { font-size: 12px; color: var(--text3); margin-bottom: 20px; }
+.login-btn { width: 100%; padding: 13px; background: linear-gradient(135deg, #5A36A8, #8B6FD8); border: none; border-radius: var(--radius-sm); color: white; font-size: 14px; font-weight: 600; font-family: 'Be Vietnam Pro', sans-serif; cursor: pointer; transition: all 0.2s; }
+.login-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+
+/* Firebase status indicator */
+.firebase-status { display: flex; align-items: center; gap: 6px; font-size: 11px; padding: 7px 12px; border-radius: 20px; margin-bottom: 12px; }
+.firebase-status.connecting { background: rgba(176,112,32,0.1); color: var(--warning); border: 1px solid rgba(176,112,32,0.25); }
+.firebase-status.connected { background: rgba(46,125,82,0.1); color: var(--success); border: 1px solid rgba(46,125,82,0.25); }
+.firebase-status.error { background: rgba(192,57,43,0.1); color: var(--danger); border: 1px solid rgba(192,57,43,0.25); }
+.status-dot { width: 7px; height: 7px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
+.status-dot.pulse { animation: pulse 1.5s infinite; }
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+.stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+.stat-card { background: var(--stat-bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px; text-align: center; box-shadow: var(--card-shadow); }
+.stat-number { font-size: 30px; font-weight: 700; font-family: 'Playfair Display', serif; }
+.stat-label { font-size: 11px; color: var(--text3); margin-top: 3px; }
+.stat-card.total .stat-number { color: var(--gold); }
+.stat-card.pending .stat-number { color: var(--warning); }
+.stat-card.confirmed .stat-number { color: var(--success); }
+.stat-card.rejected .stat-number { color: var(--danger); }
+
+.booking-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px; margin-bottom: 10px; cursor: pointer; transition: border-color 0.2s; box-shadow: var(--card-shadow); }
+.booking-card:hover { border-color: var(--border2); }
+.booking-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+.booking-name { font-size: 14px; font-weight: 600; color: var(--text); }
+.booking-time { font-size: 11px; color: var(--text3); margin-top: 2px; }
+.status-badge { padding: 3px 9px; border-radius: 20px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+.status-badge.pending { background: rgba(176,112,32,0.12); color: var(--warning); border: 1px solid rgba(176,112,32,0.3); }
+.status-badge.confirmed { background: rgba(46,125,82,0.12); color: var(--success); border: 1px solid rgba(46,125,82,0.3); }
+.status-badge.rejected { background: rgba(192,57,43,0.12); color: var(--danger); border: 1px solid rgba(192,57,43,0.3); }
+.booking-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+.booking-tag { padding: 2px 8px; background: var(--chip-bg); border: 1px solid var(--border); border-radius: 12px; font-size: 11px; color: var(--text2); }
+
+.filter-bar { display: flex; gap: 7px; margin-bottom: 14px; overflow-x: auto; padding-bottom: 2px; }
+.filter-chip { padding: 6px 13px; background: var(--chip-bg); border: 1px solid var(--border); border-radius: 20px; font-size: 12px; color: var(--text2); cursor: pointer; white-space: nowrap; transition: all 0.2s; font-family: 'Be Vietnam Pro', sans-serif; }
+.filter-chip.active { border-color: var(--gold); color: var(--gold); background: rgba(139,105,20,0.07); }
+
+.search-bar { display: flex; align-items: center; gap: 8px; background: var(--input-bg); border: 1px solid var(--border); border-radius: 12px; padding: 9px 13px; margin-bottom: 14px; }
+.search-bar input { flex: 1; background: none; border: none; color: var(--text); font-size: 13px; outline: none; font-family: 'Be Vietnam Pro', sans-serif; }
+.search-bar input::placeholder { color: var(--text3); }
+
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.55); z-index: 200; display: none; align-items: flex-end; }
+.modal-overlay.open { display: flex; }
+.modal-sheet { background: var(--modal-bg); border-radius: 22px 22px 0 0; border: 1px solid var(--border); width: 100%; max-height: 92vh; overflow-y: auto; padding: 20px 18px 28px; animation: slideUp 0.3s ease; }
+@keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+.modal-handle { width: 38px; height: 4px; background: var(--border2); border-radius: 2px; margin: 0 auto 18px; }
+.modal-title { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--gold); margin-bottom: 16px; }
+.detail-row { display: flex; justify-content: space-between; align-items: flex-start; padding: 9px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+.detail-label { color: var(--text3); min-width: 120px; }
+.detail-value { color: var(--text); text-align: right; font-weight: 500; word-break: break-word; max-width: 55%; }
+.action-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 14px; }
+.action-btn { padding: 11px; border-radius: var(--radius-sm); font-size: 13px; font-weight: 600; border: none; cursor: pointer; font-family: 'Be Vietnam Pro', sans-serif; transition: all 0.2s; }
+.action-btn.confirm { background: rgba(46,125,82,0.12); color: var(--success); border: 1px solid rgba(46,125,82,0.35); }
+.action-btn.reject { background: rgba(192,57,43,0.12); color: var(--danger); border: 1px solid rgba(192,57,43,0.35); }
+.action-btn.pdf { background: rgba(139,105,20,0.1); color: var(--gold); border: 1px solid rgba(139,105,20,0.35); grid-column: span 2; }
+.action-btn.seen { background: rgba(123,79,200,0.1); color: var(--accent); border: 1px solid rgba(123,79,200,0.35); }
+.action-btn.paid-btn { background: rgba(46,125,82,0.1); color: var(--success); border: 1px solid rgba(46,125,82,0.3); }
+
+.empty-state { text-align: center; padding: 44px 24px; }
+.empty-icon { font-size: 44px; margin-bottom: 12px; }
+.empty-text { font-size: 13px; color: var(--text3); }
+.loading-state { text-align: center; padding: 32px; }
+.spinner { width: 20px; height: 20px; border: 2px solid var(--border2); border-top-color: var(--gold); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* SCROLLBAR */
-::-webkit-scrollbar { width: 4px; height: 4px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--gold-border2); border-radius: 4px; }
+/* Error debug box */
+.debug-box { background: rgba(192,57,43,0.07); border: 1px solid rgba(192,57,43,0.2); border-radius: var(--radius-sm); padding: 12px; margin-bottom: 12px; font-size: 12px; color: var(--danger); display: none; }
+.debug-box.show { display: block; }
 
-/* RESPONSIVE */
-@media(max-width: 768px) {
-  .topbar { padding: 0 16px; }
-  .main { padding: 16px; }
-  .topbar-sub { display: none; }
-  table { font-size: 12px; }
-  thead th, tbody td { padding: 10px 10px; }
-  thead th:first-child, tbody td:first-child { padding-left: 14px; }
-  thead th:last-child, tbody td:last-child { padding-right: 14px; }
-}
+/* Retry button */
+.retry-btn { padding: 8px 18px; background: var(--gold); border: none; border-radius: 20px; color: var(--bg); font-size: 12px; font-weight: 600; cursor: pointer; font-family: 'Be Vietnam Pro', sans-serif; margin-top: 10px; }
+
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
 </style>
 </head>
 <body>
-<div class="bg-glow"></div>
-<div class="bg-glow2"></div>
-<div class="wrapper">
-
-  <!-- ===== LOGIN ===== -->
-  <div id="login-screen">
-    <div class="login-box">
-      <div class="login-gem">🔮</div>
-      <div class="login-title">BIO TAROT Admin</div>
-      <div class="login-sub">Restricted Access</div>
-      <div class="field">
-        <label>Email</label>
-        <input type="email" id="a-email" value="bioverify@googlegroups.com" autocomplete="username">
+<div class="app">
+  <!-- HEADER -->
+  <div class="app-header">
+    <div class="header-top">
+      <div class="app-logo">
+        <div class="logo-icon">🔮</div>
+        <div>
+          <div class="logo-text">Xem Bài - BIO TAROT</div>
+          <div class="logo-sub">Đặt lịch & Tra cứu vận mệnh</div>
+        </div>
       </div>
-      <div class="field">
-        <label>Mật Khẩu</label>
-        <input type="password" id="a-pass" value="Thanh123@" autocomplete="current-password">
+      <div class="header-actions">
+        <button class="theme-btn" id="theme-btn" onclick="toggleTheme()" title="Đổi giao diện">🌙</button>
+        <button class="admin-btn" onclick="showAdminLogin()">⚙ Admin</button>
       </div>
-      <button class="login-btn" id="login-btn" onclick="doLogin()">🔓 Đăng Nhập</button>
-      <div class="login-error" id="login-err">❌ Sai email hoặc mật khẩu!</div>
     </div>
   </div>
 
-  <!-- ===== DASHBOARD ===== -->
-  <div id="dashboard">
-    <div class="topbar">
-      <div class="topbar-brand">
-        <div class="topbar-gem">🔮</div>
-        <div>
-          <div class="topbar-title">BIO TAROT</div>
-          <div class="topbar-sub">Admin Dashboard</div>
+  <!-- PAGE: ĐẶT LỊCH -->
+  <div id="page-booking" class="page active">
+    <div class="section-title" style="margin-top:4px">✨ Đặt Lịch Xem Bài</div>
+    <div class="section-sub">Điền đầy đủ thông tin để đặt lịch</div>
+
+    <div class="form-card">
+      <div class="form-card-title">👤 Thông Tin Cá Nhân</div>
+      <div class="form-group">
+        <label class="form-label">Họ và Tên *</label>
+        <input type="text" class="form-input" id="f-name" placeholder="Nguyễn Văn A">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Ngày Tháng Năm Sinh *</label>
+          <input type="date" class="form-input" id="f-dob">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Giới Tính</label>
+          <select class="form-select" id="f-gender">
+            <option value="">Chọn...</option>
+            <option value="Nam">Nam</option>
+            <option value="Nữ">Nữ</option>
+            <option value="Khác">Khác</option>
+          </select>
         </div>
       </div>
-      <div class="topbar-right">
-        <div class="conn-pill connecting" id="conn-pill">
-          <div class="conn-dot pulse" id="conn-dot"></div>
-          <span id="conn-text">Đang kết nối...</span>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Số Điện Thoại *</label>
+          <input type="tel" class="form-input" id="f-phone" placeholder="0901234567">
         </div>
-        <button class="logout-btn" onclick="doLogout()">↩ Đăng xuất</button>
+        <div class="form-group">
+          <label class="form-label">Gmail (nhận kết quả) *</label>
+          <input type="email" class="form-input" id="f-email" placeholder="ten@gmail.com">
+        </div>
       </div>
     </div>
 
-    <div class="main">
-      <!-- STATS -->
-      <div class="stats-row">
-        <div class="stat-tile total">
-          <div class="stat-icon">📋</div>
-          <div class="stat-num" id="s-total">—</div>
-          <div class="stat-label">Tổng Lịch Đặt</div>
-        </div>
-        <div class="stat-tile pending">
-          <div class="stat-icon">⏳</div>
-          <div class="stat-num" id="s-pending">—</div>
-          <div class="stat-label">Chờ Xử Lý</div>
-        </div>
-        <div class="stat-tile confirmed">
-          <div class="stat-icon">✅</div>
-          <div class="stat-num" id="s-confirmed">—</div>
-          <div class="stat-label">Đã Xác Nhận</div>
-        </div>
-        <div class="stat-tile rejected">
-          <div class="stat-icon">❌</div>
-          <div class="stat-num" id="s-rejected">—</div>
-          <div class="stat-label">Từ Chối</div>
+    <div class="form-card">
+      <div class="form-card-title">🎯 Danh Mục Xem</div>
+      <div class="category-tabs">
+        <div class="cat-tab active" onclick="selectCategory('general', this)">🌟 Tổng Quát</div>
+        <div class="cat-tab" onclick="selectCategory('love', this)">💕 Tình Yêu / GĐ</div>
+        <div class="cat-tab" onclick="selectCategory('career', this)">💼 Sự Nghiệp</div>
+      </div>
+      <div class="person-section" id="person-section">
+        <div style="background: rgba(139,105,20,0.05); border: 1px solid rgba(139,105,20,0.15); border-radius: var(--radius-sm); padding: 13px; margin-bottom: 12px;">
+          <div style="font-size: 13px; font-weight: 600; color: var(--gold); margin-bottom: 11px;">💝 Thông Tin Người Ấy</div>
+          <div class="form-group">
+            <label class="form-label">Tên Người Ấy</label>
+            <input type="text" class="form-input" id="f-partner-name" placeholder="Họ tên người ấy">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Ngày Sinh</label>
+              <input type="date" class="form-input" id="f-partner-dob">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Giới Tính</label>
+              <select class="form-select" id="f-partner-gender">
+                <option value="">Chọn...</option>
+                <option value="Nam">Nam</option>
+                <option value="Nữ">Nữ</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Mối Quan Hệ</label>
+            <select class="form-select" id="f-relationship">
+              <option value="Người Yêu">Người Yêu</option>
+              <option value="Bạn Bè">Bạn Bè</option>
+              <option value="Gia Đình">Gia Đình</option>
+              <option value="Bạch Diện">Bạch Diện</option>
+            </select>
+          </div>
         </div>
       </div>
+    </div>
 
-      <!-- ERROR BANNER -->
-      <div class="err-banner" id="err-banner">
-        <button class="err-retry" onclick="startListener()">🔄 Thử lại</button>
+    <div class="form-card">
+      <div class="form-card-title">🃏 Loại Bài Xem</div>
+      <div class="options-grid" id="deck-options">
+        <div class="option-card selected" onclick="selectDeck('Bài Tây', this)">
+          <div class="option-check">✓</div>
+          <div class="option-icon">🃏</div>
+          <div class="option-name">Bài Tây</div>
+          <div class="option-desc">Playing cards</div>
+        </div>
+        <div class="option-card" onclick="selectDeck('Tarot', this)">
+          <div class="option-check">✓</div>
+          <div class="option-icon">🌙</div>
+          <div class="option-name">Tarot</div>
+          <div class="option-desc">78 lá bài</div>
+        </div>
+        <div class="option-card" onclick="selectDeck('Lenormand', this)">
+          <div class="option-check">✓</div>
+          <div class="option-icon">🌹</div>
+          <div class="option-name">Lenormand</div>
+          <div class="option-desc">36 lá bài</div>
+        </div>
+        <div class="option-card" onclick="selectDeck('Kinh Dịch', this)">
+          <div class="option-check">✓</div>
+          <div class="option-icon">☯️</div>
+          <div class="option-name">Kinh Dịch</div>
+          <div class="option-desc">64 quẻ dịch</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-card">
+      <div class="form-card-title">⏳ Gói Xem</div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+        <div class="option-card selected" onclick="selectPackage('Hiện Tại', this)">
+          <div class="option-check">✓</div>
+          <div class="option-icon">🔍</div>
+          <div class="option-name">Hiện Tại</div>
+          <div class="option-desc">Tình trạng hiện tại</div>
+        </div>
+        <div class="option-card" onclick="selectPackage('Tương Lai', this)">
+          <div class="option-check">✓</div>
+          <div class="option-icon">🌠</div>
+          <div class="option-name">Tương Lai</div>
+          <div class="option-desc">Dự đoán tương lai</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-card">
+      <div class="form-card-title">❓ Câu Hỏi Của Bạn</div>
+      <div class="question-list" id="question-list"></div>
+      <div class="add-question-row">
+        <textarea id="new-question-input" placeholder="Nhập câu hỏi bạn muốn hỏi..." rows="2"></textarea>
+        <button class="add-q-btn" onclick="addQuestion()">+ Thêm</button>
+      </div>
+      <div style="font-size: 11px; color: var(--text3); margin-top: 8px;">Thêm tối đa 5 câu hỏi cho buổi xem bài</div>
+    </div>
+
+    <button class="submit-btn" id="submit-btn" onclick="submitBooking()">
+      🔮 Xác Nhận Đặt Lịch
+    </button>
+  </div>
+
+  <!-- PAGE: ADMIN -->
+  <div id="page-admin" class="page">
+    <div id="admin-login-view">
+      <div class="login-card">
+        <div class="login-icon">🔐</div>
+        <div class="login-title">Khu Vực Admin</div>
+        <div class="login-sub">Đăng nhập để quản lý đặt lịch</div>
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input type="email" class="form-input" id="admin-email" placeholder="admin@example.com" value="bioverify@googlegroups.com">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Mật Khẩu</label>
+          <input type="password" class="form-input" id="admin-pass" placeholder="••••••••" value="Thanh123@">
+        </div>
+        <button class="login-btn" onclick="adminLogin()" id="login-btn">🔓 Đăng Nhập</button>
+      </div>
+    </div>
+
+    <div id="admin-dashboard-view" style="display:none">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+        <div class="section-title" style="margin-top:0">📊 Tổng Quan</div>
+        <button onclick="adminLogout()" style="background:none;border:1px solid var(--border);color:var(--text3);padding:6px 11px;border-radius:20px;font-size:12px;cursor:pointer;font-family:'Be Vietnam Pro',sans-serif;">Đăng xuất</button>
       </div>
 
-      <!-- TOOLBAR -->
-      <div class="toolbar">
-        <div class="search-wrap">
-          <span class="search-icon">🔍</span>
-          <input type="text" id="search" placeholder="Tìm theo tên, SĐT, email..." oninput="render()">
-        </div>
-        <div class="filter-pills">
-          <button class="fpill active" onclick="setFilter('all',this)">Tất Cả</button>
-          <button class="fpill" onclick="setFilter('pending',this)">⏳ Chờ</button>
-          <button class="fpill" onclick="setFilter('confirmed',this)">✅ Xác Nhận</button>
-          <button class="fpill" onclick="setFilter('rejected',this)">❌ Từ Chối</button>
-        </div>
-        <button class="refresh-btn" onclick="startListener()" title="Làm mới">↻</button>
-        <button class="export-btn" onclick="exportAllCSV()">⬇ Xuất CSV</button>
+      <!-- Firebase connection status -->
+      <div class="firebase-status connecting" id="firebase-status">
+        <div class="status-dot pulse"></div>
+        <span id="firebase-status-text">Đang kết nối Firebase...</span>
       </div>
 
-      <!-- TABLE -->
-      <div class="table-card">
-        <div class="table-header">
-          <div class="table-title">Danh Sách Đặt Lịch</div>
-          <div class="table-count" id="tbl-count">—</div>
-        </div>
-        <div class="tbl-wrap">
-          <table id="main-table">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Khách Hàng</th>
-                <th>Ngày Sinh</th>
-                <th>Danh Mục</th>
-                <th>Loại Bài · Gói</th>
-                <th>Câu Hỏi</th>
-                <th>Trạng Thái</th>
-                <th>Ghi Chú</th>
-                <th>Ngày Đặt</th>
-                <th>Thao Tác</th>
-              </tr>
-            </thead>
-            <tbody id="tbl-body">
-              <tr>
-                <td colspan="10">
-                  <div class="table-empty"><div class="spinner" style="margin-bottom:12px;"></div><p>Đang tải dữ liệu Firebase...</p></div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+      <!-- Debug error box -->
+      <div class="debug-box" id="debug-box"></div>
+
+      <div class="stats-grid">
+        <div class="stat-card total"><div class="stat-number" id="stat-total">—</div><div class="stat-label">📋 Tổng Khách</div></div>
+        <div class="stat-card pending"><div class="stat-number" id="stat-pending">—</div><div class="stat-label">⏳ Chờ Xử Lý</div></div>
+        <div class="stat-card confirmed"><div class="stat-number" id="stat-confirmed">—</div><div class="stat-label">✅ Xác Nhận</div></div>
+        <div class="stat-card rejected"><div class="stat-number" id="stat-rejected">—</div><div class="stat-label">❌ Từ Chối</div></div>
+      </div>
+
+      <div class="search-bar">
+        <span>🔍</span>
+        <input type="text" placeholder="Tìm theo tên, SĐT, Gmail..." id="search-input" oninput="filterBookings()">
+      </div>
+
+      <div class="filter-bar">
+        <div class="filter-chip active" onclick="setFilter('all', this)">Tất Cả</div>
+        <div class="filter-chip" onclick="setFilter('pending', this)">⏳ Chờ</div>
+        <div class="filter-chip" onclick="setFilter('confirmed', this)">✅ Xác Nhận</div>
+        <div class="filter-chip" onclick="setFilter('rejected', this)">❌ Từ Chối</div>
+      </div>
+
+      <div id="bookings-list">
+        <div class="loading-state">
+          <div class="spinner"></div>
+          <div style="margin-top:10px;color:var(--text3);font-size:13px;">Đang tải dữ liệu...</div>
         </div>
       </div>
     </div>
   </div>
 </div>
 
+<!-- BOTTOM NAV -->
+<div class="bottom-nav">
+  <button class="nav-item active" id="nav-booking" onclick="switchPage('booking')">
+    <div class="nav-icon">🔮</div>
+    <div class="nav-label">Đặt Lịch</div>
+  </button>
+  <button class="nav-item" id="nav-admin" onclick="switchPage('admin')">
+    <div class="nav-icon">⚙️</div>
+    <div class="nav-label">Quản Lý</div>
+  </button>
+</div>
+
 <!-- DETAIL MODAL -->
-<div class="modal-bg" id="modal-bg" onclick="closeModalOnBg(event)">
-  <div class="modal" id="modal">
-    <div class="modal-head">
-      <div>
-        <div class="modal-name" id="m-name">—</div>
-        <div class="modal-date" id="m-date">—</div>
-      </div>
-      <button class="modal-close" onclick="closeModal()">✕</button>
-    </div>
-    <div id="m-body"></div>
-    <div class="modal-actions" id="m-actions"></div>
+<div class="modal-overlay" id="detail-modal">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-title" id="modal-title">Chi Tiết Đặt Lịch</div>
+    <div id="modal-content"></div>
+    <div class="action-row" id="modal-actions"></div>
+    <button onclick="closeModal()" style="width:100%;padding:11px;background:none;border:1px solid var(--border);color:var(--text3);border-radius:var(--radius-sm);font-size:13px;cursor:pointer;margin-top:8px;font-family:'Be Vietnam Pro',sans-serif;">Đóng</button>
   </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
-<!-- Firebase -->
+<!-- Firebase SDK v9 compat -->
 <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
-<!-- jsPDF -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.6.0/jspdf.plugin.autotable.min.js"></script>
 
 <script>
-// ===== FIREBASE =====
-const FB_CONFIG = {
+// ===== THEME =====
+const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+let isDark = localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : prefersDark;
+function applyTheme() {
+  document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+  document.getElementById('theme-btn').textContent = isDark ? '☀️' : '🌙';
+}
+function toggleTheme() {
+  isDark = !isDark;
+  localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  applyTheme();
+}
+applyTheme();
+
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+  if (!localStorage.getItem('theme')) { isDark = e.matches; applyTheme(); }
+});
+
+// ===== FIREBASE INIT =====
+const firebaseConfig = {
   apiKey: "AIzaSyDtAU-Iqn-u39_mgkxRZ3fIF_Kyxqn-Gyg",
   authDomain: "csdl-bio.firebaseapp.com",
   databaseURL: "https://csdl-bio-default-rtdb.firebaseio.com",
@@ -662,353 +472,472 @@ const FB_CONFIG = {
   measurementId: "G-LN5QFTLV2B"
 };
 
-let db, dbListener = null;
+let app, db;
+let firebaseReady = false;
+let dbListener = null;
+
 try {
-  const fbApp = firebase.apps.length ? firebase.apps[0] : firebase.initializeApp(FB_CONFIG);
-  db = firebase.database(fbApp);
-} catch(e) { console.error('Firebase init:', e); }
+  // Kiểm tra nếu Firebase đã được khởi tạo
+  if (firebase.apps.length === 0) {
+    app = firebase.initializeApp(firebaseConfig);
+  } else {
+    app = firebase.apps[0];
+  }
+  db = firebase.database();
+  firebaseReady = true;
+  console.log('✅ Firebase initialized OK');
+} catch (e) {
+  console.error('❌ Firebase init error:', e);
+  firebaseReady = false;
+}
 
 // ===== STATE =====
+let selectedDeck = 'Bài Tây';
+let selectedPackage = 'Hiện Tại';
+let selectedCategory = 'general';
+let isAdmin = false;
 let allBookings = [];
-let activeFilter = 'all';
-let currentBookingId = null;
+let currentFilter = 'all';
+let userQuestions = [];
 
-// ===== AUTH =====
-const CREDS = { email: 'bioverify@googlegroups.com', pass: 'Thanh123@' };
+// ===== PAGE NAV =====
+function switchPage(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+  document.getElementById('nav-' + page).classList.add('active');
+  if (page === 'admin' && isAdmin) {
+    startListening();
+  }
+}
+function showAdminLogin() { switchPage('admin'); }
 
-function doLogin() {
-  const e = document.getElementById('a-email').value.trim();
-  const p = document.getElementById('a-pass').value;
+// ===== CATEGORY =====
+function selectCategory(cat, el) {
+  selectedCategory = cat;
+  document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('person-section').classList.toggle('open', cat === 'love');
+}
+
+// ===== DECK / PACKAGE =====
+function selectDeck(deck, el) {
+  selectedDeck = deck;
+  document.querySelectorAll('#deck-options .option-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+}
+function selectPackage(pkg, el) {
+  selectedPackage = pkg;
+  el.closest('div').querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+// ===== QUESTIONS =====
+function renderQuestions() {
+  const list = document.getElementById('question-list');
+  if (!userQuestions.length) { list.innerHTML = ''; return; }
+  list.innerHTML = userQuestions.map((q, i) => `
+    <div class="question-item">
+      <div class="question-num">${i+1}</div>
+      <div class="question-text">${escHtml(q)}</div>
+      <button class="question-del" onclick="removeQuestion(${i})" title="Xóa câu hỏi">×</button>
+    </div>
+  `).join('');
+}
+function addQuestion() {
+  const inp = document.getElementById('new-question-input');
+  const val = inp.value.trim();
+  if (!val) { showToast('⚠ Nhập câu hỏi trước!', 'error'); return; }
+  if (userQuestions.length >= 5) { showToast('⚠ Tối đa 5 câu hỏi!', 'error'); return; }
+  userQuestions.push(val);
+  inp.value = '';
+  renderQuestions();
+}
+function removeQuestion(idx) {
+  userQuestions.splice(idx, 1);
+  renderQuestions();
+}
+function escHtml(s) {
+  if (typeof s !== 'string') s = String(s || '');
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// ===== SUBMIT BOOKING =====
+async function submitBooking() {
+  const name = document.getElementById('f-name').value.trim();
+  const dob = document.getElementById('f-dob').value;
+  const phone = document.getElementById('f-phone').value.trim();
+  const email = document.getElementById('f-email').value.trim();
+  const gender = document.getElementById('f-gender').value;
+
+  if (!name) { showToast('⚠ Vui lòng nhập họ tên!', 'error'); return; }
+  if (!dob) { showToast('⚠ Vui lòng chọn ngày sinh!', 'error'); return; }
+  if (!phone) { showToast('⚠ Vui lòng nhập số điện thoại!', 'error'); return; }
+  if (!email) { showToast('⚠ Vui lòng nhập Gmail!', 'error'); return; }
+  if (!firebaseReady) { showToast('❌ Lỗi kết nối Firebase!', 'error'); return; }
+
+  const btn = document.getElementById('submit-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<span style="display:inline-block;width:14px;height:14px;border:2px solid rgba(0,0,0,0.2);border-top-color:#333;border-radius:50%;animation:spin 0.8s linear infinite;vertical-align:middle;margin-right:8px"></span>Đang xử lý...';
+
+  const booking = {
+    name, dob, phone, email, gender,
+    category: selectedCategory,
+    deck: selectedDeck,
+    package: selectedPackage,
+    questions: userQuestions.length ? userQuestions : [],
+    status: 'pending',
+    seen: false,
+    paid: false,
+    createdAt: Date.now(),
+    createdAtStr: new Date().toLocaleString('vi-VN')
+  };
+
+  if (selectedCategory === 'love') {
+    booking.partnerName = document.getElementById('f-partner-name').value.trim();
+    booking.partnerDob = document.getElementById('f-partner-dob').value;
+    booking.partnerGender = document.getElementById('f-partner-gender').value;
+    booking.relationship = document.getElementById('f-relationship').value;
+  }
+
+  try {
+    await db.ref('bookings').push(booking);
+    showToast('✅ Đặt lịch thành công!', 'success');
+    resetForm();
+  } catch(e) {
+    console.error('Submit error:', e);
+    showToast('❌ Lỗi: ' + (e.message || 'Không kết nối được!'), 'error');
+  }
+  btn.disabled = false;
+  btn.innerHTML = '🔮 Xác Nhận Đặt Lịch';
+}
+
+function resetForm() {
+  ['f-name','f-dob','f-phone','f-email','f-partner-name','f-partner-dob'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  ['f-gender','f-partner-gender'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  userQuestions = [];
+  renderQuestions();
+  document.getElementById('new-question-input').value = '';
+}
+
+// ===== ADMIN LOGIN =====
+function adminLogin() {
+  const e = document.getElementById('admin-email').value.trim();
+  const p = document.getElementById('admin-pass').value.trim();
+  
   const btn = document.getElementById('login-btn');
-  const errEl = document.getElementById('login-err');
-
-  btn.disabled = true; btn.textContent = '⏳ Đang xác thực...';
-  errEl.classList.remove('show');
+  btn.textContent = '⏳ Đang đăng nhập...';
+  btn.disabled = true;
 
   setTimeout(() => {
-    if (e === CREDS.email && p === CREDS.pass) {
-      document.getElementById('login-screen').style.display = 'none';
-      document.getElementById('dashboard').style.display = 'block';
-      startListener();
+    if (e === 'bioverify@googlegroups.com' && p === 'Thanh123@') {
+      isAdmin = true;
+      document.getElementById('admin-login-view').style.display = 'none';
+      document.getElementById('admin-dashboard-view').style.display = 'block';
+      showToast('✅ Đăng nhập thành công!', 'success');
+      startListening();
     } else {
-      errEl.classList.add('show');
-      btn.disabled = false; btn.textContent = '🔓 Đăng Nhập';
+      showToast('❌ Sai thông tin đăng nhập!', 'error');
     }
+    btn.textContent = '🔓 Đăng Nhập';
+    btn.disabled = false;
   }, 400);
 }
 
-function doLogout() {
-  stopListener();
+function adminLogout() {
+  isAdmin = false;
+  // Hủy listener khi đăng xuất
+  if (dbListener) {
+    db.ref('bookings').off('value', dbListener);
+    dbListener = null;
+  }
+  document.getElementById('admin-login-view').style.display = 'block';
+  document.getElementById('admin-dashboard-view').style.display = 'none';
   allBookings = [];
-  document.getElementById('login-screen').style.display = 'flex';
-  document.getElementById('dashboard').style.display = 'none';
-  setConn('connecting', '⏳ Đang kết nối...');
 }
 
-// Enter to login
-document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('a-pass').addEventListener('keydown', e => {
-    if (e.key === 'Enter') doLogin();
-  });
-});
+// ===== FIREBASE LISTENER (REALTIME) =====
+function startListening() {
+  if (!firebaseReady) {
+    setFbStatus('error', '❌ Firebase chưa được khởi tạo!');
+    showDebugError('Firebase không khởi tạo được. Kiểm tra console để biết thêm chi tiết.');
+    return;
+  }
 
-// ===== FIREBASE LISTENER =====
-function stopListener() {
-  if (dbListener) { db.ref('bookings').off('value', dbListener); dbListener = null; }
-  db.ref('.info/connected').off();
-}
+  // Hủy listener cũ nếu có
+  if (dbListener) {
+    db.ref('bookings').off('value', dbListener);
+    dbListener = null;
+  }
 
-function startListener() {
-  if (!db) { showErr('Firebase chưa khởi tạo được. Kiểm tra lại config.'); return; }
-  stopListener();
-  hideErr();
-  setConn('connecting', '⏳ Đang kết nối...');
-  setTblLoading();
+  setFbStatus('connecting', '⏳ Đang kết nối Firebase...');
+  showBookingsLoading();
 
-  // Connection state
+  // Test kết nối trước
   db.ref('.info/connected').on('value', snap => {
     if (snap.val() === true) {
-      setConn('connected', `🟢 Realtime · ${allBookings.length} lịch`);
+      setFbStatus('connected', '🟢 Đã kết nối Firebase');
     } else {
-      setConn('connecting', '⏳ Đang kết nối lại...');
+      setFbStatus('connecting', '⏳ Đang kết nối lại...');
     }
   });
 
-  // Bookings
-  dbListener = db.ref('bookings').orderByChild('createdAt').on('value', snap => {
-    allBookings = [];
-    if (snap.exists()) {
-      snap.forEach(child => allBookings.unshift({ id: child.key, ...child.val() }));
+  // Lắng nghe dữ liệu bookings realtime
+  dbListener = db.ref('bookings').orderByChild('createdAt').on(
+    'value',
+    snap => {
+      allBookings = [];
+      if (snap.exists()) {
+        snap.forEach(child => {
+          allBookings.unshift({ id: child.key, ...child.val() });
+        });
+      }
+      console.log('📦 Loaded', allBookings.length, 'bookings');
+      setFbStatus('connected', '🟢 Đã kết nối · ' + allBookings.length + ' lịch đặt');
+      hideDebugError();
+      updateStats();
+      renderBookings();
+    },
+    err => {
+      console.error('❌ Firebase read error:', err.code, err.message);
+      setFbStatus('error', '❌ Lỗi đọc dữ liệu: ' + err.code);
+      showDebugError(getErrorHelp(err));
+      showBookingsError(err);
     }
-    setConn('connected', `🟢 Realtime · ${allBookings.length} lịch đặt`);
-    updateStats();
-    render();
-    hideErr();
-  }, err => {
-    console.error('DB error:', err);
-    setConn('error', '❌ ' + (err.code || 'Lỗi kết nối'));
-    let msg = `Lỗi Firebase: ${err.code}\n${err.message}`;
-    if (err.code === 'PERMISSION_DENIED') {
-      msg += '\n\n🔒 Database Rules đang chặn.\nVào Firebase Console → Realtime Database → Rules:\n{\n  "rules": { ".read": true, ".write": true }\n}';
-    }
-    showErr(msg);
-    setTblEmpty('❌ Không thể tải dữ liệu. Kiểm tra lỗi bên trên.');
-  });
+  );
 }
 
-// ===== UI HELPERS =====
-function setConn(type, text) {
-  const pill = document.getElementById('conn-pill');
-  const dot = document.getElementById('conn-dot');
-  const txt = document.getElementById('conn-text');
-  pill.className = 'conn-pill ' + type;
-  dot.className = 'conn-dot' + (type === 'connecting' ? ' pulse' : '');
-  txt.textContent = text;
+function getErrorHelp(err) {
+  if (err.code === 'PERMISSION_DENIED') {
+    return '🔒 PERMISSION_DENIED: Database Rules đang chặn đọc dữ liệu.\n\nVào Firebase Console → Realtime Database → Rules → đổi thành:\n{\n  "rules": {\n    ".read": true,\n    ".write": true\n  }\n}\n\n⚠ Chỉ dùng cho development! Không dùng trong môi trường thật.';
+  }
+  if (err.code === 'NETWORK_ERROR') {
+    return '🌐 NETWORK_ERROR: Kiểm tra kết nối Internet.';
+  }
+  return `Lỗi Firebase: ${err.code} — ${err.message}`;
 }
 
-function showErr(msg) {
-  const el = document.getElementById('err-banner');
-  el.classList.add('show');
-  // keep the retry button, set text before it
-  el.childNodes[0] && el.childNodes[0].nodeType === 3 && el.removeChild(el.childNodes[0]);
-  el.insertBefore(document.createTextNode(msg + '\n\n'), el.firstChild);
-}
-function hideErr() { document.getElementById('err-banner').classList.remove('show'); }
-
-function setTblLoading() {
-  document.getElementById('tbl-body').innerHTML = `
-    <tr><td colspan="10">
-      <div class="table-empty"><div class="spinner" style="margin-bottom:12px;"></div><p>Đang tải dữ liệu...</p></div>
-    </td></tr>`;
-}
-function setTblEmpty(msg) {
-  document.getElementById('tbl-body').innerHTML = `
-    <tr><td colspan="10">
-      <div class="table-empty"><div class="ei">📭</div><p>${msg}</p></div>
-    </td></tr>`;
+function setFbStatus(type, text) {
+  const el = document.getElementById('firebase-status');
+  const textEl = document.getElementById('firebase-status-text');
+  el.className = 'firebase-status ' + type;
+  textEl.textContent = text;
+  const dot = el.querySelector('.status-dot');
+  dot.className = 'status-dot' + (type === 'connecting' ? ' pulse' : '');
 }
 
+function showDebugError(msg) {
+  const box = document.getElementById('debug-box');
+  box.textContent = msg;
+  box.classList.add('show');
+}
+function hideDebugError() {
+  document.getElementById('debug-box').classList.remove('show');
+}
+
+function showBookingsLoading() {
+  document.getElementById('bookings-list').innerHTML = `
+    <div class="loading-state">
+      <div class="spinner"></div>
+      <div style="margin-top:10px;color:var(--text3);font-size:13px;">Đang tải dữ liệu Firebase...</div>
+    </div>`;
+}
+
+function showBookingsError(err) {
+  document.getElementById('bookings-list').innerHTML = `
+    <div class="empty-state">
+      <div class="empty-icon">⚠️</div>
+      <div class="empty-text" style="color:var(--danger)">${escHtml(err.code || 'Lỗi')}: ${escHtml(err.message)}</div>
+      <button class="retry-btn" onclick="startListening()">🔄 Thử Lại</button>
+    </div>`;
+}
+
+// ===== STATS =====
 function updateStats() {
-  document.getElementById('s-total').textContent = allBookings.length;
-  document.getElementById('s-pending').textContent = allBookings.filter(b=>b.status==='pending').length;
-  document.getElementById('s-confirmed').textContent = allBookings.filter(b=>b.status==='confirmed').length;
-  document.getElementById('s-rejected').textContent = allBookings.filter(b=>b.status==='rejected').length;
+  document.getElementById('stat-total').textContent = allBookings.length;
+  document.getElementById('stat-pending').textContent = allBookings.filter(b=>b.status==='pending').length;
+  document.getElementById('stat-confirmed').textContent = allBookings.filter(b=>b.status==='confirmed').length;
+  document.getElementById('stat-rejected').textContent = allBookings.filter(b=>b.status==='rejected').length;
 }
 
-// ===== FILTER =====
+// ===== FILTER + SEARCH =====
 function setFilter(f, el) {
-  activeFilter = f;
-  document.querySelectorAll('.fpill').forEach(p => p.classList.remove('active'));
+  currentFilter = f;
+  document.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('active'));
   el.classList.add('active');
-  render();
+  renderBookings();
 }
+function filterBookings() { renderBookings(); }
 
-// ===== RENDER TABLE =====
-const CAT = { general:'🌟 Tổng Quát', love:'💕 Tình Yêu / GĐ', career:'💼 Sự Nghiệp' };
-
-function render() {
-  const q = (document.getElementById('search').value || '').toLowerCase();
-  const list = allBookings.filter(b => {
-    const fOk = activeFilter === 'all' || b.status === activeFilter;
-    const sOk = !q ||
-      (b.name||'').toLowerCase().includes(q) ||
-      (b.phone||'').includes(q) ||
-      (b.email||'').toLowerCase().includes(q);
-    return fOk && sOk;
+// ===== RENDER BOOKINGS =====
+function renderBookings() {
+  const search = (document.getElementById('search-input').value || '').toLowerCase();
+  const filtered = allBookings.filter(b => {
+    const matchF = currentFilter === 'all' || b.status === currentFilter;
+    const matchS = !search ||
+      (b.name||'').toLowerCase().includes(search) ||
+      (b.phone||'').includes(search) ||
+      (b.email||'').toLowerCase().includes(search);
+    return matchF && matchS;
   });
 
-  document.getElementById('tbl-count').textContent = `${list.length} / ${allBookings.length} bản ghi`;
+  const c = document.getElementById('bookings-list');
+  if (!filtered.length) {
+    c.innerHTML = `<div class="empty-state"><div class="empty-icon">📭</div><div class="empty-text">${allBookings.length === 0 ? 'Chưa có lịch đặt nào' : 'Không tìm thấy kết quả'}</div></div>`;
+    return;
+  }
 
-  if (!list.length) { setTblEmpty(allBookings.length === 0 ? 'Chưa có lịch đặt nào.' : 'Không tìm thấy kết quả.'); return; }
-
-  const statusLabel = { pending:'⏳ Chờ', confirmed:'✅ Xác nhận', rejected:'❌ Từ chối' };
-
-  document.getElementById('tbl-body').innerHTML = list.map((b, i) => `
-    <tr onclick="openModal('${b.id}')">
-      <td style="color:var(--muted);font-size:12px;">${i+1}</td>
-      <td>
-        <div class="td-name">${esc(b.name)}</div>
-        <div class="td-sub">📞 ${esc(b.phone||'—')}</div>
-        <div class="td-email">✉ ${esc(b.email||'—')}</div>
-        ${b.gender?`<div class="td-sub">${esc(b.gender)}</div>`:''}
-      </td>
-      <td style="font-size:12px;white-space:nowrap;">${fmtDate(b.dob)}</td>
-      <td>${esc(CAT[b.category]||b.category||'—')}</td>
-      <td>
-        <div style="font-size:12px;">🃏 ${esc(b.deck||'—')}</div>
-        <div style="font-size:12px;color:var(--muted2)">⏳ ${esc(b.package||'—')}</div>
-        ${b.category==='love'&&b.partnerName?`<div class="td-sub" style="margin-top:3px;">💕 ${esc(b.partnerName)}</div>`:''}
-      </td>
-      <td>
-        ${b.questions&&b.questions.length
-          ? `<div class="q-count">❓ <strong>${b.questions.length}</strong> câu</div>
-             <div style="font-size:11px;color:var(--muted);margin-top:3px;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(b.questions[0])}</div>`
-          : '<span style="color:var(--muted);font-size:12px;">—</span>'}
-      </td>
-      <td><span class="badge ${b.status}">${statusLabel[b.status]||b.status}</span></td>
-      <td>
-        ${b.seen?'<span class="tag seen">👁 Đã Xem</span>':''}
-        ${b.paid?'<span class="tag paid">💰 Đã TT</span>':''}
-        ${!b.seen&&!b.paid?'<span style="color:var(--muted);font-size:12px;">—</span>':''}
-      </td>
-      <td style="font-size:11px;color:var(--muted);white-space:nowrap;">${esc(b.createdAtStr||'—')}</td>
-      <td onclick="event.stopPropagation()">
-        <div class="row-actions">
-          ${b.status!=='confirmed'?`<button class="act confirm" onclick="upStatus('${b.id}','confirmed')">✅</button>`:''}
-          ${b.status!=='rejected'?`<button class="act reject" onclick="upStatus('${b.id}','rejected')">❌</button>`:''}
-          ${!b.seen?`<button class="act seen" onclick="markSeen('${b.id}')">👁</button>`:''}
-          ${!b.paid?`<button class="act paid" onclick="markPaid('${b.id}')">💰</button>`:''}
-          <button class="act pdf" onclick="makePDF('${b.id}')">PDF</button>
+  const catLabel = { general:'Tổng Quát', love:'Tình Yêu / GĐ', career:'Sự Nghiệp' };
+  c.innerHTML = filtered.map(b => `
+    <div class="booking-card" onclick="openDetail('${b.id}')">
+      <div class="booking-header">
+        <div>
+          <div class="booking-name">${escHtml(b.name)}</div>
+          <div class="booking-time">📅 ${b.createdAtStr || '--'} · ${b.phone||'--'}</div>
         </div>
-      </td>
-    </tr>
+        <div class="status-badge ${b.status}">${b.status==='pending'?'⏳ Chờ':b.status==='confirmed'?'✅ Xác nhận':'❌ Từ chối'}</div>
+      </div>
+      <div class="booking-tags">
+        <span class="booking-tag">🃏 ${escHtml(b.deck||'')}</span>
+        <span class="booking-tag">⏳ ${escHtml(b.package||'')}</span>
+        <span class="booking-tag">🎯 ${escHtml(catLabel[b.category]||b.category||'')}</span>
+        ${b.questions&&b.questions.length?`<span class="booking-tag">❓ ${b.questions.length} câu hỏi</span>`:''}
+        ${b.seen?'<span class="booking-tag" style="color:var(--accent)">👁 Đã Xem</span>':''}
+        ${b.paid?'<span class="booking-tag" style="color:var(--success)">💰 Đã TT</span>':''}
+      </div>
+    </div>
   `).join('');
 }
 
-// ===== MODAL =====
-function openModal(id) {
+// ===== DETAIL MODAL =====
+function openDetail(id) {
   const b = allBookings.find(x=>x.id===id);
   if (!b) return;
-  currentBookingId = id;
+  const catLabel = { general:'🌟 Tổng Quát', love:'💕 Tình Yêu / GĐ', career:'💼 Sự Nghiệp' };
+  document.getElementById('modal-title').textContent = '📋 ' + b.name;
 
-  document.getElementById('m-name').textContent = b.name || '—';
-  document.getElementById('m-date').textContent = '📅 Đặt lịch: ' + (b.createdAtStr||'—');
-
-  const statusLabel = { pending:'⏳ Chờ Xử Lý', confirmed:'✅ Đã Xác Nhận', rejected:'❌ Từ Chối' };
-
-  let html = '';
-
-  // Thông tin cá nhân
-  html += section('👤 Thông Tin Khách', [
+  let rows = [
     ['Họ Tên', b.name],
-    ['Ngày Sinh', fmtDate(b.dob)],
-    ['Giới Tính', b.gender],
-    ['Điện Thoại', b.phone],
-    ['Gmail', b.email],
-  ]);
+    ['Ngày Sinh', b.dob ? new Date(b.dob+'T00:00:00').toLocaleDateString('vi-VN') : '--'],
+    ['Giới Tính', b.gender||'--'],
+    ['Điện Thoại', b.phone||'--'],
+    ['Gmail', b.email||'--'],
+    ['Danh Mục', catLabel[b.category]||b.category],
+    ['Loại Bài', '🃏 '+b.deck],
+    ['Gói Xem', b.package],
+    ['Ngày Đặt', b.createdAtStr||'--'],
+    ['Trạng Thái', b.status==='pending'?'⏳ Chờ':b.status==='confirmed'?'✅ Xác nhận':'❌ Từ chối'],
+    ['Đã Xem', b.seen?'✅ Rồi':'❌ Chưa'],
+    ['Thanh Toán', b.paid?'✅ Rồi':'❌ Chưa'],
+  ];
 
-  // Người ấy (nếu có)
-  if (b.category === 'love' && b.partnerName) {
-    html += section('💕 Thông Tin Người Ấy', [
-      ['Tên Người Ấy', b.partnerName],
-      ['Ngày Sinh', fmtDate(b.partnerDob)],
-      ['Giới Tính', b.partnerGender],
-      ['Mối Quan Hệ', b.relationship],
-    ]);
+  if (b.category==='love' && b.partnerName) {
+    rows.splice(5,0,
+      ['Tên Người Ấy', b.partnerName||'--'],
+      ['Sinh Người Ấy', b.partnerDob?new Date(b.partnerDob+'T00:00:00').toLocaleDateString('vi-VN'):'--'],
+      ['Giới Tính (NA)', b.partnerGender||'--'],
+      ['Mối Quan Hệ', b.relationship||'--'],
+    );
   }
 
-  // Chi tiết xem
-  html += section('🃏 Chi Tiết Xem Bài', [
-    ['Danh Mục', CAT[b.category]||b.category],
-    ['Loại Bài', b.deck],
-    ['Gói Xem', b.package],
-    ['Trạng Thái', statusLabel[b.status]||b.status],
-    ['Đã Xem', b.seen?'✅ Rồi':'❌ Chưa'],
-    ['Thanh Toán', b.paid?'✅ Đã TT':'❌ Chưa'],
-  ]);
-
-  // Câu hỏi
+  let questionsHtml = '';
   if (b.questions && b.questions.length) {
-    html += `<div class="modal-section">
-      <div class="modal-section-title">❓ Câu Hỏi (${b.questions.length})</div>
-      ${b.questions.map((q,i)=>`
-        <div class="modal-q">
-          <div class="modal-q-num">${i+1}</div>
-          <div class="modal-q-text">${esc(q)}</div>
-        </div>`).join('')}
+    questionsHtml = `<div style="margin-top:12px;padding:12px;background:var(--chip-bg);border-radius:var(--radius-sm);border:1px solid var(--border)">
+      <div style="font-size:12px;font-weight:600;color:var(--gold);margin-bottom:10px">❓ Câu Hỏi (${b.questions.length})</div>
+      ${b.questions.map((q,i)=>`<div style="font-size:13px;padding:6px 0;border-bottom:1px solid var(--border);color:var(--text)"><span style="color:var(--gold);font-weight:700">${i+1}.</span> ${escHtml(q)}</div>`).join('')}
     </div>`;
   }
 
-  document.getElementById('m-body').innerHTML = html;
-  document.getElementById('m-actions').innerHTML = `
-    <button class="m-act confirm" onclick="upStatus('${id}','confirmed')">✅ Xác Nhận</button>
-    <button class="m-act reject" onclick="upStatus('${id}','rejected')">❌ Từ Chối</button>
-    <button class="m-act seen" onclick="markSeen('${id}')">👁 Đánh Dấu Đã Xem</button>
-    <button class="m-act paid" onclick="markPaid('${id}')">💰 Đã Thanh Toán</button>
-    <button class="m-act pdf" onclick="makePDF('${id}')">📄 Xuất PDF</button>
+  document.getElementById('modal-content').innerHTML =
+    rows.map(([k,v]) => `<div class="detail-row"><span class="detail-label">${k}</span><span class="detail-value">${escHtml(String(v))}</span></div>`).join('') + questionsHtml;
+
+  document.getElementById('modal-actions').innerHTML = `
+    <button class="action-btn confirm" onclick="updateStatus('${id}','confirmed')">✅ Xác Nhận</button>
+    <button class="action-btn reject" onclick="updateStatus('${id}','rejected')">❌ Từ Chối</button>
+    <button class="action-btn seen" onclick="markSeen('${id}')">👁 Đã Xem</button>
+    <button class="action-btn paid-btn" onclick="markPaid('${id}')">💰 Đã Thanh Toán</button>
+    <button class="action-btn pdf" onclick="exportPDF('${id}')">📄 Tải PDF</button>
   `;
 
-  document.getElementById('modal-bg').classList.add('open');
+  document.getElementById('detail-modal').classList.add('open');
 }
 
-function section(title, rows) {
-  return `<div class="modal-section">
-    <div class="modal-section-title">${title}</div>
-    ${rows.filter(([,v])=>v).map(([k,v])=>`
-      <div class="modal-row">
-        <span class="modal-key">${k}</span>
-        <span class="modal-val">${esc(String(v))}</span>
-      </div>`).join('')}
-  </div>`;
-}
+function closeModal() { document.getElementById('detail-modal').classList.remove('open'); }
 
-function closeModal() { document.getElementById('modal-bg').classList.remove('open'); }
-function closeModalOnBg(e) { if (e.target === document.getElementById('modal-bg')) closeModal(); }
-
-// ===== DB ACTIONS =====
-async function upStatus(id, status) {
+// ===== UPDATE STATUS =====
+async function updateStatus(id, status) {
   try {
     await db.ref('bookings/'+id).update({ status });
-    toast(status==='confirmed'?'✅ Đã xác nhận!':'❌ Đã từ chối!', 'success');
+    showToast(status==='confirmed'?'✅ Đã xác nhận!':'❌ Đã từ chối!', 'success');
     closeModal();
-  } catch(e) { toast('❌ Lỗi: '+e.message, 'error'); }
+  } catch(e) {
+    showToast('❌ Lỗi cập nhật: ' + e.message, 'error');
+  }
 }
 async function markSeen(id) {
   try {
     await db.ref('bookings/'+id).update({ seen: true });
-    toast('👁 Đánh dấu đã xem!', 'success');
+    showToast('👁 Đã đánh dấu đã xem!', 'success');
     closeModal();
-  } catch(e) { toast('❌ Lỗi: '+e.message, 'error'); }
+  } catch(e) {
+    showToast('❌ Lỗi: ' + e.message, 'error');
+  }
 }
 async function markPaid(id) {
   try {
     await db.ref('bookings/'+id).update({ paid: true });
-    toast('💰 Đánh dấu thanh toán!', 'success');
+    showToast('💰 Đã đánh dấu thanh toán!', 'success');
     closeModal();
-  } catch(e) { toast('❌ Lỗi: '+e.message, 'error'); }
+  } catch(e) {
+    showToast('❌ Lỗi: ' + e.message, 'error');
+  }
 }
 
-// ===== PDF EXPORT =====
-function makePDF(id) {
+// ===== EXPORT PDF =====
+function exportPDF(id) {
   const b = allBookings.find(x=>x.id===id);
   if (!b) return;
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF({ orientation:'portrait', unit:'mm', format:'a4' });
+  doc.setFont('helvetica');
 
-  // Header
-  doc.setFillColor(13,10,20);
-  doc.rect(0,0,210,42,'F');
+  doc.setFillColor(26,18,40);
+  doc.rect(0,0,210,38,'F');
   doc.setTextColor(201,168,76);
-  doc.setFontSize(20);
-  doc.setFont('helvetica','bold');
-  doc.text('BIO TAROT — DAT LICH XEM BAI', 105, 18, { align:'center' });
-  doc.setFontSize(10); doc.setFont('helvetica','normal');
-  doc.setTextColor(160,140,100);
-  doc.text('Chi tiet dat lich | ' + (b.createdAtStr||''), 105, 30, { align:'center' });
+  doc.setFontSize(18);
+  doc.text('DAT LICH XEM BAI - BIO TAROT', 105, 16, { align:'center' });
+  doc.setFontSize(10);
+  doc.setTextColor(180,160,120);
+  doc.text('Thong tin chi tiet dat lich', 105, 26, { align:'center' });
 
-  const catMap = { general:'Tong Quat', love:'Tinh Yeu / Gia Dinh', career:'Su Nghiep' };
-  const statusMap = { pending:'Cho xu ly', confirmed:'Da xac nhan', rejected:'Tu choi' };
-
-  let rows = [
-    ['Ho Ten', b.name||'—'],
-    ['Ngay Thang Nam Sinh', fmtDate(b.dob)||'—'],
-    ['Gioi Tinh', b.gender||'—'],
-    ['So Dien Thoai', b.phone||'—'],
-    ['Gmail', b.email||'—'],
-    ['Danh Muc Xem', catMap[b.category]||b.category||'—'],
-    ['Loai Bai', b.deck||'—'],
-    ['Goi Xem', b.package||'—'],
-    ['Trang Thai', statusMap[b.status]||b.status||'—'],
+  const catLabel = { general:'Tong Quat', love:'Tinh Yeu / Gia Dinh', career:'Su Nghiep' };
+  const rows = [
+    ['Ho Ten', b.name||'--'],
+    ['Ngay Thang Nam Sinh', b.dob?new Date(b.dob+'T00:00:00').toLocaleDateString('vi-VN'):'--'],
+    ['Gioi Tinh', b.gender||'--'],
+    ['So Dien Thoai', b.phone||'--'],
+    ['Gmail', b.email||'--'],
+    ['Danh Muc Xem', catLabel[b.category]||b.category],
+    ['Loai Bai', b.deck],
+    ['Goi Xem', b.package],
+    ['Thoi Gian Dat Lich', b.createdAtStr||'--'],
+    ['Trang Thai', b.status==='pending'?'Cho xu ly':b.status==='confirmed'?'Da xac nhan':'Tu choi'],
     ['Da Xem', b.seen?'Co':'Chua'],
     ['Da Thanh Toan', b.paid?'Co':'Chua'],
   ];
 
-  if (b.category === 'love') {
+  if (b.category==='love') {
     rows.splice(5,0,
-      ['Nguoi Ay - Ho Ten', b.partnerName||'—'],
-      ['Nguoi Ay - Ngay Sinh', fmtDate(b.partnerDob)||'—'],
-      ['Nguoi Ay - Gioi Tinh', b.partnerGender||'—'],
-      ['Moi Quan He', b.relationship||'—'],
+      ['Nguoi Ay - Ho Ten', b.partnerName||'--'],
+      ['Nguoi Ay - Ngay Sinh', b.partnerDob?new Date(b.partnerDob+'T00:00:00').toLocaleDateString('vi-VN'):'--'],
+      ['Nguoi Ay - Gioi Tinh', b.partnerGender||'--'],
+      ['Moi Quan He', b.relationship||'--'],
     );
   }
 
@@ -1017,69 +946,51 @@ function makePDF(id) {
   }
 
   doc.autoTable({
-    startY: 48,
-    head: [['Thong Tin', 'Noi Dung']],
+    startY: 44,
+    head: [['Thong Tin', 'Chi Tiet']],
     body: rows,
     theme: 'grid',
-    headStyles: { fillColor:[26,18,40], textColor:[201,168,76], fontStyle:'bold', fontSize:10 },
-    bodyStyles: { fontSize:10, textColor:[30,20,50] },
-    alternateRowStyles: { fillColor:[245,242,255] },
-    columnStyles: { 0:{cellWidth:60,fontStyle:'bold',textColor:[80,60,120]}, 1:{cellWidth:120} },
+    headStyles: { fillColor:[26,18,40], textColor:[201,168,76], fontStyle:'bold', fontSize:11 },
+    bodyStyles: { fontSize:10, textColor:[40,30,60] },
+    alternateRowStyles: { fillColor:[245,240,255] },
+    columnStyles: { 0:{cellWidth:62,fontStyle:'bold',textColor:[80,60,100]}, 1:{cellWidth:118} },
     margin: { left:15, right:15 }
   });
 
-  const y = doc.lastAutoTable.finalY + 10;
-  doc.setFontSize(8); doc.setTextColor(150,130,100);
-  doc.text('Xuat ban: ' + new Date().toLocaleString('vi-VN'), 105, y, { align:'center' });
-  doc.text('BIO TAROT Admin Dashboard', 105, y+5, { align:'center' });
-
-  doc.save('BioTarot_' + (b.name||'dat-lich').replace(/\s+/g,'_') + '.pdf');
-  toast('📄 Đã xuất PDF!', 'info');
-}
-
-// ===== CSV EXPORT =====
-function exportAllCSV() {
-  if (!allBookings.length) { toast('⚠ Không có dữ liệu!', 'error'); return; }
-  const headers = ['STT','Ho Ten','Ngay Sinh','Gioi Tinh','Dien Thoai','Email','Danh Muc','Loai Bai','Goi Xem','Trang Thai','Da Xem','Da TT','Nguoi Ay','Sinh NA','GT NA','Quan He','So Cau Hoi','Cau Hoi 1','Cau Hoi 2','Cau Hoi 3','Cau Hoi 4','Cau Hoi 5','Ngay Dat'];
-  const catMap = { general:'Tong Quat', love:'Tinh Yeu/GD', career:'Su Nghiep' };
-  const rows = allBookings.map((b,i) => [
-    i+1, b.name||'', fmtDate(b.dob), b.gender||'', b.phone||'', b.email||'',
-    catMap[b.category]||b.category||'', b.deck||'', b.package||'',
-    b.status||'', b.seen?'Co':'Chua', b.paid?'Co':'Chua',
-    b.partnerName||'', fmtDate(b.partnerDob), b.partnerGender||'', b.relationship||'',
-    b.questions?b.questions.length:0,
-    ...[0,1,2,3,4].map(j => (b.questions&&b.questions[j])||''),
-    b.createdAtStr||''
-  ]);
-
-  const csv = [headers, ...rows].map(r => r.map(v => '"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\n');
-  const blob = new Blob(['\uFEFF'+csv], { type:'text/csv;charset=utf-8;' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url; a.download = 'BioTarot_DatLich_' + new Date().toISOString().slice(0,10) + '.csv';
-  a.click(); URL.revokeObjectURL(url);
-  toast('📊 Đã xuất CSV (' + allBookings.length + ' bản ghi)!', 'success');
-}
-
-// ===== UTILS =====
-function esc(s) {
-  if (typeof s !== 'string') s = String(s||'');
-  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-}
-function fmtDate(d) {
-  if (!d) return '—';
-  try { return new Date(d+'T00:00:00').toLocaleDateString('vi-VN'); } catch { return d; }
+  const finalY = doc.lastAutoTable.finalY + 10;
+  doc.setFontSize(9); doc.setTextColor(150,130,100);
+  doc.text('Xuat ban: '+new Date().toLocaleString('vi-VN'), 105, finalY, { align:'center' });
+  doc.text('BIO TAROT | He thong quan ly dat lich xem bai', 105, finalY+6, { align:'center' });
+  doc.save('DatLich_'+b.name.replace(/\s/g,'_')+'.pdf');
+  showToast('📄 Đã xuất PDF!', 'success');
 }
 
 // ===== TOAST =====
-let toastTimer;
-function toast(msg, type='info') {
-  const el = document.getElementById('toast');
-  el.textContent = msg;
-  el.className = 'toast '+type+' show';
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => el.classList.remove('show'), 3500);
+function showToast(msg, type='success') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast '+type+' show';
+  clearTimeout(t._timer);
+  t._timer = setTimeout(()=>t.classList.remove('show'), 3500);
 }
+
+// ===== EVENT LISTENERS =====
+document.getElementById('detail-modal').addEventListener('click', function(e) {
+  if (e.target===this) closeModal();
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  const qi = document.getElementById('new-question-input');
+  if (qi) {
+    qi.addEventListener('keydown', e => {
+      if (e.key==='Enter' && !e.shiftKey) { e.preventDefault(); addQuestion(); }
+    });
+  }
+  // Enter to login
+  document.getElementById('admin-pass').addEventListener('keydown', e => {
+    if (e.key === 'Enter') adminLogin();
+  });
+});
 </script>
 </body>
 </html>
